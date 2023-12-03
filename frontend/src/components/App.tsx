@@ -1,16 +1,25 @@
 "use client";
-import { Center, Flex, Group } from "@mantine/core";
-import React from "react";
+import { Center, Flex, Group, Notification, rem } from "@mantine/core";
+import React, { useEffect } from "react";
 import useWindowSize from "@parrot/hooks/useWindowSize";
 import UploadHistoryView from "@parrot/components/UploadHistoryView";
 import ReadVoiceView from "@parrot/components/ReadVoiceView";
 import CurrentTextView from "@parrot/components/CurrentTextView";
 import FileUploadView from "@parrot/components/FileUploadView";
 import { IconFeather } from "@tabler/icons-react";
+import { useDispatch, useSelector } from "react-redux";
+import { clear_error_message } from "@parrot/store/slice";
+import { RootState } from "@parrot/store/reducer";
 
 export const App: React.FC = ({}) => {
     const windowSize: [number, number] = useWindowSize();
-    const smallScreen = (windowSize[0] < 0.75*windowSize[1]) || windowSize[0] < 768;
+    const smallScreen = (windowSize[0] < 0.75*windowSize[1]) || windowSize[0] < 1296;
+    const dispatch = useDispatch();
+    const error_msg = useSelector((state: RootState) => state.main.errorMsg);
+
+    useEffect(() => {
+        dispatch(clear_error_message());
+    }, [dispatch])
 
     return (
         <div style={{padding: "1rem"}}>
@@ -34,6 +43,11 @@ export const App: React.FC = ({}) => {
                         <ReadVoiceView />
                     </Flex>
             </Flex>
+            {error_msg && <Notification onClose={() => {
+                dispatch(clear_error_message())
+            }} withBorder color="orange" title="ERROR" pos="absolute" bottom={rem(20)} right={rem(20)} w={rem(500)}>
+                {error_msg}
+            </Notification>}
         </div>
     );
 }

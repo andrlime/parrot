@@ -1,8 +1,11 @@
 
 export interface IUploadedFile {
+    localKey: string | number;
     fileName: string;
     fileContent: string;
     content?: string;
-    awsS3Key?: string;
     audioS3Key?: string;
+    awsJobId?: string;
+    awsTextKey?: string;
+    audioRaw?: string;
 }
