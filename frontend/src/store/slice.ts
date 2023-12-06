@@ -3,12 +3,14 @@ import { IUploadedFile } from '@parrot/interfaces';
 
 interface MainState {
   fileHistory: IUploadedFile[];
+  apiEndpoint: string;
   mostRecentFile?: IUploadedFile;
   errorMsg?: string;
 }
 
 const initialState: MainState = {
   fileHistory: [],
+  apiEndpoint: "https://goldfish-app-e96r6.ondigitalocean.app",
   mostRecentFile: undefined,
   errorMsg: ""
 };

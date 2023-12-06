@@ -1,11 +1,12 @@
 "use client";
 import { Group, rem, Notification } from "@mantine/core";
 import { Dropzone, DropzoneProps, FileWithPath, PDF_MIME_TYPE } from "@mantine/dropzone";
+import { RootState } from "@parrot/store/reducer";
 import { upload_new_file, set_file, set_active_file, set_error_msg, clear_error_message } from "@parrot/store/slice";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const FILE_LIMIT_KB = 200;
 
@@ -15,7 +16,9 @@ const random_3letter_b16 = () => {
 
 export default function FileUploadView(props: Partial<DropzoneProps>) {
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const api_endpoint = useSelector((state: RootState) => state.main.apiEndpoint);
 
     const upload = (files: FileWithPath[]) => {
         setLoading(true);
@@ -28,7 +31,7 @@ export default function FileUploadView(props: Partial<DropzoneProps>) {
                 // if there is a hash collision by doing this,
                 // I will bet my life on the next NU vs Purdue basketball game
 
-                axios.post("https://kxwo4yrvt3gmuufzmslltjmllu0gwgsj.lambda-url.us-east-2.on.aws/", {
+                axios.post(`${api_endpoint}/upload`, {
                     filename: file.name,
                     data: base64String
                 }).then((response) => {

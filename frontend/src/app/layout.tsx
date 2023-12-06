@@ -3,8 +3,8 @@ import '@mantine/core/styles.css';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 
 export const metadata = {
-  title: 'My Mantine app',
-  description: 'I have followed setup instructions carefully',
+  title: 'Parrot: PDF Text to Speech Conversion',
+  description: 'PDF Text to Speech Conversion',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

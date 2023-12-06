@@ -10,6 +10,8 @@ export const CurrentTextView: React.FC = ({}) => {
     const content = mostRecentFile?.content || "";
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+
+    const api_endpoint = useSelector((state: RootState) => state.main.apiEndpoint);
     
     return (
         <Flex direction="column" gap="sm">
@@ -26,11 +28,11 @@ export const CurrentTextView: React.FC = ({}) => {
             <Button disabled={!mostRecentFile?.awsTextKey} loading={loading} style={{width: "fit-content"}} onClick={() => {
                 if(mostRecentFile?.awsJobId) {
                     setLoading(true);
-                    axios.post(`https://dwlbwgi274dm46pucxpnqgu2uy0wjdux.lambda-url.us-east-2.on.aws/`, {
+                    axios.post(`${api_endpoint}/convert`, {
                         txtkey: mostRecentFile.awsTextKey
                     })
                     .then((_response) => {
-                        axios.get(`https://m0bduuhs7l.execute-api.us-east-2.amazonaws.com/draft/download/${mostRecentFile.awsJobId}`)
+                        axios.get(`${api_endpoint}/download/${mostRecentFile.awsJobId}`)
                         .then((response2) => {
                             console.log(response2);
                             dispatch(set_active_audio({

@@ -38,7 +38,6 @@ const SingleFile: React.FC<ISingleFile> = ({file}) => {
 
 export const UploadHistoryView: React.FC = ({}) => {
     const allFiles = useSelector((state: RootState) => state.main.fileHistory);
-    console.log(allFiles)
 
     return (
         <Flex style={{border: "0.5px solid black", borderRadius: "16px"}} p="xs" gap="xs" direction="column-reverse">
