@@ -5,7 +5,7 @@ const router = express.Router();
 
 const UPLOAD_API_ROUTE = "https://kxwo4yrvt3gmuufzmslltjmllu0gwgsj.lambda-url.us-east-2.on.aws/";
 const CONVERT_API_ROUTE = "https://dwlbwgi274dm46pucxpnqgu2uy0wjdux.lambda-url.us-east-2.on.aws/";
-const DELETE_API_ROUTE = "https://lv6t6dcoml2sqfue6mxmpalw5e0jquzn.lambda-url.us-east-2.on.aws/";
+const DELETE_API_ROUTE = (jobid: string) => `https://lv6t6dcoml2sqfue6mxmpalw5e0jquzn.lambda-url.us-east-2.on.aws/${jobid}`;
 const DOWNLOAD_API_ROUTE = (jobid: string) => `https://m0bduuhs7l.execute-api.us-east-2.amazonaws.com/draft/download/${jobid}`;
 
 // if it works
@@ -48,9 +48,15 @@ router.route("/download/:jobid").get((req: Request, res: Response) => {
   });
 });
 
-// router.route("/delete").delete((req: Request, res: Response) => {
-//   const job_ids = req.body.jobids;
-// });
+router.route("/delete/:jobid").delete((req: Request, res: Response) => {
+  const job_id = req.params.jobid;
+
+  axios.delete(DELETE_API_ROUTE(job_id)).then((response) => {
+    res.status(200).send(response.data);
+  }).catch((error) => {
+    res.status(error.response.status || 500).json({msg: error});
+  });
+});
 
 module.exports = router;
 export default router;
