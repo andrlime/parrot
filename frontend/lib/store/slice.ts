@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IUploadedFile } from '@parrot/interfaces';
+import { IUploadedFile } from '../interfaces';
 
 interface MainState {
   fileHistory: IUploadedFile[];
@@ -10,7 +10,7 @@ interface MainState {
 
 const initialState: MainState = {
   fileHistory: [],
-  apiEndpoint: "https://goldfish-app-e96r6.ondigitalocean.app",
+  apiEndpoint: "https://lionfish-app-qvkn2.ondigitalocean.app",
   mostRecentFile: undefined,
   errorMsg: ""
 };

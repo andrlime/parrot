@@ -1,15 +1,15 @@
 "use client";
-import { Center, Flex, Group, Notification, rem } from "@mantine/core";
+import useWindowSize from "../hooks/useWindowSize";
+import UploadHistoryView from "./UploadHistoryView";
+import ReadVoiceView from "./ReadVoiceView";
+import CurrentTextView from "./CurrentTextView";
+import FileUploadView from "./FileUploadView";
 import React, { useEffect } from "react";
-import useWindowSize from "@parrot/hooks/useWindowSize";
-import UploadHistoryView from "@parrot/components/UploadHistoryView";
-import ReadVoiceView from "@parrot/components/ReadVoiceView";
-import CurrentTextView from "@parrot/components/CurrentTextView";
-import FileUploadView from "@parrot/components/FileUploadView";
+import { Flex, Notification, rem } from "@mantine/core";
 import { IconFeather } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
-import { clear_error_message } from "@parrot/store/slice";
-import { RootState } from "@parrot/store/reducer";
+import { clear_error_message } from "../store/slice";
+import { RootState } from "../store/reducer";
 
 export const App: React.FC = ({}) => {
     const windowSize: [number, number] = useWindowSize();

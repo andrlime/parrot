@@ -1,11 +1,11 @@
 "use client";
-import { Group, rem, Notification } from "@mantine/core";
-import { Dropzone, DropzoneProps, FileWithPath, PDF_MIME_TYPE } from "@mantine/dropzone";
-import { RootState } from "@parrot/store/reducer";
-import { upload_new_file, set_file, set_active_file, set_error_msg, clear_error_message } from "@parrot/store/slice";
-import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useState } from "react";
+import { Group, rem } from "@mantine/core";
+import { Dropzone, DropzoneProps, FileWithPath, PDF_MIME_TYPE } from "@mantine/dropzone";
+import { RootState } from "../store/reducer";
+import { upload_new_file, set_file, set_active_file, set_error_msg, clear_error_message } from "../store/slice";
+import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
 const FILE_LIMIT_KB = 200;
@@ -15,9 +15,9 @@ const random_3letter_b16 = () => {
 }
 
 export default function FileUploadView(props: Partial<DropzoneProps>) {
+    // State
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-
     const api_endpoint = useSelector((state: RootState) => state.main.apiEndpoint);
 
     const upload = (files: FileWithPath[]) => {

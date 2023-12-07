@@ -1,9 +1,15 @@
 import { Flex, InputDescription, InputLabel } from "@mantine/core";
-import { RootState } from "@parrot/store/reducer";
-import { IconFileMusic, IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
-import React, { useEffect, useRef, useState } from "react";
+import { RootState } from "../store/reducer";
+import { IconFileMusic } from "@tabler/icons-react";
+import React from "react";
 import { useSelector } from "react-redux";
 
+/**
+ * Convert base64 to a Blob object
+ * @param base64 Base 64 encoded string
+ * @param mimeType Type of Blob
+ * @returns Blob()
+ */
 function base64ToBlob(base64: string, mimeType: string) {
     if(base64 == "") return;
 
@@ -19,35 +25,11 @@ function base64ToBlob(base64: string, mimeType: string) {
 }
 
 export const ReadVoiceView: React.FC = ({}) => {
-    const [playing, setPlaying] = useState(false);
-    const audioRef = useRef(null);
-
     const mostRecentFile = useSelector((state: RootState) => state.main.mostRecentFile);
     let audioBlob = null;
+
     if(mostRecentFile?.audioRaw) {
         audioBlob = base64ToBlob(mostRecentFile.audioRaw, "audio/mp3");
-    }
-
-    const formatTime = (t: number) => {
-        return `${Math.floor(t/60)}:${`${t%60}`.padStart(2, "0")}`;
-    }
-
-    const changePlayPause = () => {
-        const audio = audioRef.current;
-        if(!audio) {
-            return;
-        }
-
-        if (playing) {
-            (audio as any).pause();
-        } else {
-            (audio as any).currentTime = 0;
-            (audio as any).play();
-        }
-        
-        if(mostRecentFile?.audioS3Key == "exists") {
-            setPlaying(!playing);
-        }
     }
 
     return (
@@ -56,7 +38,7 @@ export const ReadVoiceView: React.FC = ({}) => {
                 <InputDescription style={{fontWeight: 400}}>The content of the PDF will be read back to you as an audio file.</InputDescription>
             </InputLabel>
             {audioBlob && <>
-                <audio ref={audioRef} src={URL.createObjectURL(audioBlob)} controls />
+                <audio src={URL.createObjectURL(audioBlob)} controls />
             </>}
             <Flex gap="sm" justify="flex-start" align="center">
                 <IconFileMusic stroke={1} style={{ 

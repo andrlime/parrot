@@ -1,7 +1,7 @@
 import { Flex } from "@mantine/core";
-import { IUploadedFile } from "@parrot/interfaces";
-import { RootState } from "@parrot/store/reducer";
-import { delete_file, set_active_file } from "@parrot/store/slice";
+import { IUploadedFile } from "../interfaces";
+import { RootState } from "../store/reducer";
+import { delete_file, set_active_file } from "../store/slice";
 import { IconDeviceSpeaker, IconEdit, IconFileTypePdf, IconTrash } from "@tabler/icons-react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
