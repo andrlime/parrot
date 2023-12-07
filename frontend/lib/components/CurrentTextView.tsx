@@ -38,7 +38,6 @@ export const CurrentTextView: React.FC = ({}) => {
                     .then((_response) => {
                         axios.get(`${api_endpoint}/download/${mostRecentFile.awsJobId}`)
                         .then((response2) => {
-                            console.log(response2);
                             dispatch(set_active_audio({
                                 lk: mostRecentFile.localKey,
                                 ak: response2.data

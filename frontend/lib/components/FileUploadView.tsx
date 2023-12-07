@@ -35,7 +35,6 @@ export default function FileUploadView(props: Partial<DropzoneProps>) {
                     filename: file.name,
                     data: base64String
                 }).then((response) => {
-                    console.log(response);
                     dispatch(upload_new_file({
                         localKey: localKey,
                         fileName: file.name,
@@ -50,8 +49,7 @@ export default function FileUploadView(props: Partial<DropzoneProps>) {
                     dispatch(set_active_file(localKey));
                     setLoading(false);
                 }).catch((error) => {
-                    console.log("something terrible happened oops");
-                    console.log(error);
+                    console.error(error);
                     if (error.response) {
                         dispatch(set_error_msg("Bad response code (not 2xx)."));
                         setLoading(false);
