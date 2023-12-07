@@ -51,7 +51,7 @@ export default function FileUploadView(props: Partial<DropzoneProps>) {
                 }).catch((error) => {
                     console.error(error);
                     if (error.response) {
-                        dispatch(set_error_msg("Bad response code (not 2xx)."));
+                        dispatch(set_error_msg(`Bad response code (${error.response.status || "not 2xx"}). Some files will not work. We are not sure the precise reason why.`));
                         setLoading(false);
                     } else if (error.request) {
                         dispatch(set_error_msg("Server did not respond."))
