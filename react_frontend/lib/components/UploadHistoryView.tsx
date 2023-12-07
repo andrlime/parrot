@@ -1,10 +1,11 @@
 import { Flex } from "@mantine/core";
 import { IUploadedFile } from "../interfaces";
 import { RootState } from "../store/reducer";
-import { delete_file, set_active_file } from "../store/slice";
+import { delete_file, set_active_file, set_error_msg } from "../store/slice";
 import { IconDeviceSpeaker, IconEdit, IconFileTypePdf, IconTrash } from "@tabler/icons-react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 interface ISingleFile {
     file: IUploadedFile;
@@ -12,6 +13,7 @@ interface ISingleFile {
 
 const SingleFile: React.FC<ISingleFile> = ({file}) => {
     const dispatch = useDispatch();
+    const api_endpoint = useSelector((state: RootState) => state.main.apiEndpoint);
 
     return (
         <Flex gap="md" p="xs" justify="space-between" align="center">
@@ -30,6 +32,11 @@ const SingleFile: React.FC<ISingleFile> = ({file}) => {
                 }} stroke={1} style={{ color: 'var(--mantine-color-green-9)' }}/>
                 <IconTrash onClick={() => {
                     dispatch(delete_file(file.localKey));
+                    axios.delete(`${api_endpoint}/delete/${file.awsJobId}`).then((response) => {
+                        console.log(`deleted job ${file.awsJobId}`);
+                    }).catch((err) => {
+                        dispatch(set_error_msg(`Failed to delete job from S3. We removed it from your browser anyway.`));
+                    })
                 }} stroke={1} style={{ color: 'var(--mantine-color-red-9)' }}/>
             </Flex>
         </Flex>
